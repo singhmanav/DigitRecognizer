@@ -12,7 +12,7 @@ import Vision
 
 class ViewController: UIViewController {
     
-    @IBOutlet weak var drawingCanvas: UIImageView!
+    @IBOutlet weak var drawingCanvas: DigitView!
     @IBOutlet weak var resultLabel: UILabel!
     var imageToDetect:CIImage?
     var lastPoint = CGPoint.zero
@@ -24,7 +24,6 @@ class ViewController: UIViewController {
     var swiped = false
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUpCanvasColors()
         // Do any additional setup after loading the view, typically from a nib.
     }
     
@@ -38,14 +37,14 @@ class ViewController: UIViewController {
     }
     
     @IBAction func clearButtonPressed(_ sender: UIBarButtonItem) {
-        self.drawingCanvas.image = nil
+        self.drawingCanvas.clear()
         self.imageToDetect = nil
         self.resultLabel.text = "Draw a number or tap on an image"
     }
     
     func predictDigit() -> Void{
         
-        let scaledCanvasImage = self.imageWithImage(image: self.drawingCanvas.image!, newSize: CGSize(width: 28, height: 28))
+        let scaledCanvasImage = self.drawingCanvas.imageWithImage(newSize: CGSize(width: 28, height: 28))
         
         self.imageToDetect = CIImage(image: scaledCanvasImage)
         let mlModel = keras_mnist_cnn().model
@@ -79,64 +78,26 @@ class ViewController: UIViewController {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return newImage!
-    }
-    
-    
-    func setUpCanvasColors(){
-        brushWidth = 10.0
-        opacity = 1.0
-        red = 255.0/255.0
-        green = 255.0/255.0
-        blue = 255.0/255.0
-        self.drawingCanvas.backgroundColor = UIColor.black
+        
         
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        swiped = false
-        if let touch = touches.first {
-            lastPoint = touch.location(in: self.view)
-        }
-    }
-    
-    func drawLineFrom(fromPoint: CGPoint, toPoint: CGPoint) {
-        UIGraphicsBeginImageContext(view.frame.size)
-        let context = UIGraphicsGetCurrentContext()
-        drawingCanvas.image?.draw(in: CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.frame.size.height))
-        context?.move(to: fromPoint)
-        context?.addLine(to: toPoint)
-        context?.setLineCap(.round)
-        context?.setLineWidth(brushWidth)
-        context?.setStrokeColor(red: red, green: green, blue: blue, alpha: 1.0)
-        context?.setBlendMode(.normal)
-        context?.strokePath()
+}
+
+extension UIView {
+    func imageWithImage(newSize:CGSize) -> UIImage{
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
         
-        self.drawingCanvas.image = UIGraphicsGetImageFromCurrentImageContext()
-        self.drawingCanvas.alpha = opacity
+        drawHierarchy(in: CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height), afterScreenUpdates: true)
+        
+        let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        swiped = true
-        if let touch = touches.first {
-            let currentPoint = touch.location(in: view)
-            drawLineFrom(fromPoint: lastPoint, toPoint: currentPoint)
-            lastPoint = currentPoint
-        }
-    }
-    
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if !swiped {
-            drawLineFrom(fromPoint:lastPoint, toPoint: lastPoint)
+        
+        if (image != nil) {
+            return image!
         }
         
-        UIGraphicsBeginImageContext(self.drawingCanvas.frame.size)
-        let navH = self.navigationController?.navigationBar.frame.height
-        self.drawingCanvas.image?.draw(in: CGRect(x: 0 , y: 0 - navH!, width: view.frame.size.width, height: view.frame.size.height), blendMode: .normal, alpha: 1.0)
-        
-        self.drawingCanvas.image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
+        return UIImage()
     }
     
 }

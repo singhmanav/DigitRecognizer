@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z2T-xx-ibK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="z2T-xx-ibK">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
-        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,14 +18,11 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="uLR-Tp-QyY">
-                                <rect key="frame" x="0.0" y="64" width="375" height="544"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="uLR-Tp-QyY" secondAttribute="height" multiplier="1:1" constant="-169" id="gaJ-In-nYC"/>
-                                </constraints>
-                            </imageView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Reconized Digit: 5" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5R1-PO-kb2">
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LnJ-zR-Iy8" customClass="DigitView" customModule="DigitRecognizer" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="64" width="375" height="562"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Draw a number or tap on an image" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5R1-PO-kb2">
                                 <rect key="frame" x="16" y="626" width="343" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -36,11 +32,12 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="zq3-bR-3hY" firstAttribute="trailing" secondItem="5R1-PO-kb2" secondAttribute="trailing" constant="16" id="2EL-rR-0Vj"/>
-                            <constraint firstItem="uLR-Tp-QyY" firstAttribute="leading" secondItem="5rJ-RP-H5z" secondAttribute="leading" id="LRI-pK-6jB"/>
-                            <constraint firstAttribute="trailing" secondItem="uLR-Tp-QyY" secondAttribute="trailing" id="Vpq-g8-QKX"/>
+                            <constraint firstItem="LnJ-zR-Iy8" firstAttribute="top" secondItem="zq3-bR-3hY" secondAttribute="top" id="2VC-3f-x9j"/>
+                            <constraint firstItem="LnJ-zR-Iy8" firstAttribute="leading" secondItem="zq3-bR-3hY" secondAttribute="leading" id="6RX-Qm-O4G"/>
                             <constraint firstItem="5R1-PO-kb2" firstAttribute="leading" secondItem="zq3-bR-3hY" secondAttribute="leading" constant="16" id="Xc9-Qj-udJ"/>
                             <constraint firstItem="zq3-bR-3hY" firstAttribute="bottom" secondItem="5R1-PO-kb2" secondAttribute="bottom" constant="20" id="aeq-4R-XKU"/>
-                            <constraint firstItem="uLR-Tp-QyY" firstAttribute="top" secondItem="zq3-bR-3hY" secondAttribute="top" id="jiM-4e-RSW"/>
+                            <constraint firstItem="zq3-bR-3hY" firstAttribute="trailing" secondItem="LnJ-zR-Iy8" secondAttribute="trailing" id="e0n-Bv-pVW"/>
+                            <constraint firstItem="5R1-PO-kb2" firstAttribute="top" secondItem="LnJ-zR-Iy8" secondAttribute="bottom" id="kyz-wL-Pv1"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="zq3-bR-3hY"/>
                     </view>
@@ -57,7 +54,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
-                        <outlet property="drawingCanvas" destination="uLR-Tp-QyY" id="bfk-w0-bv8"/>
+                        <outlet property="drawingCanvas" destination="LnJ-zR-Iy8" id="qgg-Ab-epq"/>
                         <outlet property="resultLabel" destination="5R1-PO-kb2" id="v0p-d6-wrJ"/>
                     </connections>
                 </viewController>
